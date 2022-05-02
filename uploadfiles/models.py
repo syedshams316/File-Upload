@@ -27,4 +27,4 @@ class Document(models.Model):
 
     def name(self):
         filename = os.path.basename(self.file.name)
-        return filename
+        return filename[:20]

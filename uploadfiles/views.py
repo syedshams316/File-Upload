@@ -1,6 +1,7 @@
 import os
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
 from django.http.response import JsonResponse, HttpResponse, Http404
@@ -9,12 +10,10 @@ from .models import Document
 # Create your views here.
 
 
+@login_required
 def index(request):
-    if request.user.is_authenticated:
         documents = Document.objects.filter(user=request.user)
         return render(request, 'uploadfiles/index.html', {'documents': documents})
-
-    return render(request, 'uploadfiles/index.html')
 
 
 class UploadView(LoginRequiredMixin, generic.View):
