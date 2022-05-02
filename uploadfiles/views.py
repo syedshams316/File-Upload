@@ -10,8 +10,11 @@ from .models import Document
 
 
 def index(request):
-    documents = Document.objects.filter(user=request.user)
-    return render(request, 'uploadfiles/index.html', {'documents': documents})
+    if request.user.is_authenticated:
+        documents = Document.objects.filter(user=request.user)
+        return render(request, 'uploadfiles/index.html', {'documents': documents})
+
+    return render(request, 'uploadfiles/index.html')
 
 
 class UploadView(LoginRequiredMixin, generic.View):
